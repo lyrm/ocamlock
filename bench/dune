@@ -1,0 +1,3 @@
+(executables
+ (names bench perf)
+ (libraries ocamlock unix))
