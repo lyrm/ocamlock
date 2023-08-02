@@ -1,0 +1,4 @@
+(library
+ (name ocamlock)
+ (libraries backoff)
+ (public_name ocamlock))
