@@ -10,8 +10,9 @@ let test (module Worker : WORK) ndomain nlock rounds =
     List.init ndomain (fun _ ->
         Domain.spawn (fun () ->
             Orchestrator.worker orch (fun () ->
+                let rlock = Worker.register lock in
                 for _ = 0 to nlock - 1 do
-                  Worker.incr counter lock
+                  Worker.incr counter rlock
                 done)))
   in
 
@@ -39,9 +40,8 @@ let main ?(gnuplot = false) () =
 let _ = main ~gnuplot:true ()
 
 (*
-
 dune exec ./bench/bench.exe > bench.data
 
 gnuplot -p -e 'plot for [col=2:6] "bench.data" using 1:col with lines title columnheader'
 
-     *)
+*)

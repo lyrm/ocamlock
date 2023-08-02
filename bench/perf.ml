@@ -8,12 +8,13 @@ let test ndomain nlock =
   let domains =
     List.init ndomain (fun _ ->
         Domain.spawn (fun () ->
+            let rlock = Work_CLH.register lock in
             Atomic.decr barrier;
             while Atomic.get barrier <> 0 do
               Domain.cpu_relax ()
             done;
             for _ = 0 to nlock - 1 do
-              Work_CLH.incr counter lock
+              Work_CLH.incr counter rlock
             done))
   in
   List.iter Domain.join domains
