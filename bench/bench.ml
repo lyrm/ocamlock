@@ -40,8 +40,8 @@ let _ = main ~gnuplot:true ()
 
 (*
 
-dune exec ./bench/test_taslock.exe > bench.data
+dune exec ./bench/bench.exe > bench.data
 
-gnuplot -p -e 'plot for [col=2:4] "bench.data" using 1:col with lines title columnheader'
+gnuplot -p -e 'plot for [col=2:6] "bench.data" using 1:col with lines title columnheader'
 
      *)
