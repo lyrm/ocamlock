@@ -1,3 +1,3 @@
 (tests
  (libraries ocamlock)
- (names test_alock test_clh_queue_lock test_mcs_lock))
+ (names test_alock test_clh_queue_lock test_mcs_lock test_dla_mutex))

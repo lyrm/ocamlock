@@ -112,6 +112,7 @@ end
 module Work_TAS : WORK = Work_builder ((TTASlock : LOCK))
 module Work_Mutex : WORK = Work_builder ((Mutex : LOCK))
 module Work_CLH_DLS : WORK = Work_builder ((CLH_queue_lock_DLS : LOCK))
+module Work_DLA_mutex : WORK = Work_builder ((Dla_mutex : LOCK))
 
 let all_locks : (string * (module WORK)) list =
   [
@@ -122,4 +123,5 @@ let all_locks : (string * (module WORK)) list =
       ("CLH", (module Work_CLH));*)
     ("CLH-noalloc", (module Work_CLH_noalloc));
     ("MCS-lock", (module Work_MCS));
+    ("DLA-mutex", (module Work_DLA_mutex));
   ]

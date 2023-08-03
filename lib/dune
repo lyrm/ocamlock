@@ -1,3 +1,4 @@
 (library
  (name ocamlock)
+ (libraries backoff domain-local-await)
  (public_name ocamlock))

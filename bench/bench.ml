@@ -21,7 +21,7 @@ let test (module Worker : WORK) ndomain nlock rounds =
   res
 
 let main ?(gnuplot = false) () =
-  let nlock, nround = (10_000, 100) in
+  let nlock, nround = (2_000, 50) in
 
   let res =
     List.map
@@ -32,7 +32,7 @@ let main ?(gnuplot = false) () =
                Gc.major ();
                let mean = mean ~cut_minmax:(nround / 20) data in
                (ndomain, mean)))
-            [ 1; 2; 4; 6; 8; 10; 12; 14 ] ))
+            [ 1; 2; 4; 6; 8; 10; 12 ] ))
       All_locks_def.all_locks
   in
   print ~gnuplot res
