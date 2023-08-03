@@ -11,29 +11,34 @@
    - when releasing put (-1) in the cell
 *)
 
-type t = { flags : bool array; tail : int Atomic.t; mask : int; padding : int }
+type t = {
+  flags : bool Atomic.t array;
+  tail : int Atomic.t;
+  mask : int;
+  padding : int;
+}
 
 let create ?(padding = 1) size : t =
-  let flags = Array.make (size * padding) false in
-  flags.(0) <- true;
+  let flags = Array.make (size * padding) (Atomic.make false) in
+  Atomic.set flags.(0) true;
   { flags; tail = Atomic.make 0; mask = size - 1; padding }
 
 type rt = t * int
 
 let lock ({ flags; tail; padding; mask } as t) =
   let slot = Atomic.fetch_and_add tail padding land mask in
-  while not flags.(slot) do
+  while not @@ Atomic.get flags.(slot) do
     ()
   done;
   (t, slot)
 
 let lock_relax ({ flags; tail; padding; mask } as t) =
   let slot = Atomic.fetch_and_add tail padding land mask in
-  while not flags.(slot) do
+  while not @@ Atomic.get flags.(slot) do
     Domain.cpu_relax ()
   done;
   (t, slot)
 
 let unlock ({ flags; padding; mask; _ }, slot) =
-  flags.(slot) <- false;
-  flags.((slot + padding) land mask) <- true
+  Atomic.set flags.(slot) false;
+  Atomic.set flags.((slot + padding) land mask) true
