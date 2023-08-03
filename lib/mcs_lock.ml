@@ -22,8 +22,6 @@ let lock ((tail, mynode) : rt) =
         Domain.cpu_relax ()
       done
 
-exception Return
-
 let unlock ((tail, mynode) : rt) =
   let mynode_val = match mynode with Nil -> assert false | Next v -> v in
   let rec loop () =
@@ -38,6 +36,8 @@ let unlock ((tail, mynode) : rt) =
             (* Is the while loop needed ? or just calling [loop ()]
                enough. If line 20 is not finished when we reloop, then
                we redo the CAS for nothing. *)
+            (* Question : can the condition not beeing updated at each
+               loop for optimization *)
             Domain.cpu_relax ()
           done;
           loop ())

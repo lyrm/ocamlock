@@ -32,7 +32,7 @@ let main ?(gnuplot = false) () =
                Gc.major ();
                let mean = mean ~cut_minmax:(nround / 20) data in
                (ndomain, mean)))
-            [ 1; 2; 4; 6 ] ))
+            [ 1; 2; 4; 6; 8; 10; 12; 14 ] ))
       All_locks_def.all_locks
   in
   print ~gnuplot res
